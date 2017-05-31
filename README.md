@@ -38,3 +38,9 @@ Select `
 @{Name="Size(GB)";Expression={[decimal]("{0:N2}" -f($_.size/1gb))}},`
 |Export-CSV C:\a.csv -NoTypeInformation
 ```
+
+### 4 Exporting Active Directory Users
+```
+get-aduser -filter * -properties department,name | where {$_.department -eq "math"} | Select Name, Title, @{N='Manager';Expression={(Get-ADUser $_.Manager).Name}} | Export-csv C:\file.csv
+```
+```
