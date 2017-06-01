@@ -43,4 +43,15 @@ Select `
 ```
 get-aduser -filter * -properties department,name | where {$_.department -eq "math"} | Select Name, Title, @{N='Manager';Expression={(Get-ADUser $_.Manager).Name}} | Export-csv C:\file.csv
 ```
+### 5 Exporting Office 365 Licensed
+```
+Get-MsolUser -All | Where {$_.isLicensed -eq $true} | select userPrincipalName, DisplayName,Department， @{N='License';Expression={$_.Licenses.AccountSkuId}} | Export-CSV c:\scripts\m2\licenses.csv
+```
+
+## 4. Importing Information from CSV
+### 2 The Basics of Importing from CSV
+```
+$users = import csv C:\scripts\m3.csv
+foreach( $user in $users)
+$username = $user.name
 ```
